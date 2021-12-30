@@ -1,0 +1,26 @@
+service: data-ingestion-treez-domo
+
+disabledDeprecations:
+  - '*'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  profile: ${env:PROVIDER_PROFILE}
+  stage: ${env:PROVIDER_STAGE}
+  region: us-west-2
+  environment:
+    START_FROM: ${env:START_FROM}
+    PAGE_SIZE: ${env:PAGE_SIZE}
+    DATASET_ID: ${env:DATASET_ID}
+    DOMO_CLIENT_ID: <DOMO_CLIENT_ID>
+    DOMO_SECRET: <DOMO_SECRET>
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+functions:
+  import:
+    handler: ./src/functions/import.handler
+    timeout: 30
